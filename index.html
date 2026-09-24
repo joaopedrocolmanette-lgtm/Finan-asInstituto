@@ -1,0 +1,1056 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#025896" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Finanças" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="https://clinicainstitutodosorriso.com.br/wp-content/uploads/2024/05/logo_png-copiar-2.png" />
+  <title>Finanças da Clínica</title>
+  <style>
+    :root {
+      --blue: #025896;
+      --blue-dark: #013d68;
+      --blue-light: #eaf5fb;
+      --text: #17324a;
+      --muted: #6c7d8d;
+      --line: #dfe8ef;
+      --bg: #f5f8fb;
+      --card: #ffffff;
+      --success: #087f5b;
+      --danger: #c0392b;
+      --shadow: 0 12px 34px rgba(16, 52, 77, .08);
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, #f7fbfe 0%, var(--bg) 100%);
+      min-height: 100vh;
+    }
+    button, input, select { font: inherit; }
+    button { cursor: pointer; }
+    .app-shell { width: min(1450px, 100%); margin: 0 auto; padding: 18px; }
+    header.hero {
+      display: flex; align-items: center; justify-content: space-between; gap: 18px;
+      background: linear-gradient(135deg, var(--blue) 0%, #0579c4 100%);
+      color: #fff; padding: 24px 26px; border-radius: 24px; box-shadow: var(--shadow);
+      position: sticky; top: 10px; z-index: 20;
+      margin-bottom: 18px;
+    }
+    .brand { display: flex; align-items: center; gap: 13px; min-width: 0; }
+    .brand-photo-wrap { position: relative; flex: 0 0 auto; }
+    .brand-photo {
+      width: 52px; height: 52px; border-radius: 15px; display: grid; place-items: center;
+      background: rgba(255,255,255,.16); font-weight: 800; font-size: 22px; border: 1px solid rgba(255,255,255,.28);
+      object-fit: cover; overflow: hidden; color: #fff;
+    }
+    .brand-photo.has-image { background: #fff; }
+    .photo-edit-badge {
+      position: absolute; right: -5px; bottom: -5px; width: 21px; height: 21px; border-radius: 999px;
+      display: grid; place-items: center; background: #fff; color: var(--blue); border: 2px solid rgba(2,88,150,.18);
+      font-size: 11px; box-shadow: 0 3px 10px rgba(0,0,0,.15); pointer-events: none;
+    }
+    .brand-copy { min-width: 0; }
+    .brand-title-row { display: flex; align-items: center; gap: 7px; min-width: 0; }
+    .brand h1 { margin: 0; font-size: 25px; letter-spacing: -.02em; overflow-wrap: anywhere; }
+    .title-edit {
+      border: 0; background: rgba(255,255,255,.14); color: #fff; width: 28px; height: 28px; border-radius: 8px;
+      display: inline-grid; place-items: center; flex: 0 0 auto; font-size: 14px; border: 1px solid rgba(255,255,255,.2);
+    }
+    .title-edit:hover { background: rgba(255,255,255,.22); }
+    .brand p { margin: 3px 0 0; opacity: .82; font-size: 13px; }
+    .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+    .btn {
+      border: 0; border-radius: 12px; padding: 11px 14px; font-weight: 700;
+      transition: .18s ease; display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary { background: #fff; color: var(--blue); }
+    .btn-ghost { background: rgba(255,255,255,.14); color: #fff; border: 1px solid rgba(255,255,255,.25); }
+    .btn-blue { background: var(--blue); color: #fff; }
+    .btn-secondary { background: #edf4f8; color: var(--blue-dark); }
+    .btn-danger { background: #fff1ef; color: var(--danger); }
+    .btn-small { padding: 7px 9px; border-radius: 9px; font-size: 12px; }
+
+    .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-bottom: 18px; }
+    .stat { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow); }
+    .stat-label { color: var(--muted); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
+    .stat-value { margin-top: 7px; font-size: 25px; font-weight: 800; letter-spacing: -.03em; }
+
+    .grid { display: grid; grid-template-columns: 370px 1fr; gap: 18px; align-items: start; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
+    .card-head { padding: 18px 20px 8px; }
+    .card-head h2 { margin: 0; font-size: 18px; }
+    .card-head p { margin: 5px 0 0; color: var(--muted); font-size: 12px; line-height: 1.4; }
+    .card-body { padding: 14px 20px 20px; }
+
+    .form-grid { display: grid; gap: 11px; }
+    label { display: grid; gap: 6px; font-size: 12px; font-weight: 700; color: #355066; }
+    input, select {
+      width: 100%; border: 1px solid #cfdae3; background: #fbfdff; color: var(--text);
+      border-radius: 11px; padding: 11px 12px; outline: none; transition: .15s;
+    }
+    input:focus, select:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(2,88,150,.12); }
+    .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .installments-note {
+      display: none; padding: 10px 11px; border-radius: 11px; background: var(--blue-light); color: var(--blue-dark);
+      font-size: 12px; line-height: 1.35; border: 1px solid #cde5f3;
+    }
+    .installments-note.show { display: block; }
+    .form-actions { display: flex; gap: 8px; margin-top: 5px; }
+    .form-actions .btn { flex: 1; justify-content: center; }
+
+    .toolbar { padding: 16px 18px; border-bottom: 1px solid var(--line); display: flex; gap: 10px; align-items: end; justify-content: space-between; flex-wrap: wrap; }
+    .search { min-width: 260px; flex: 1; }
+    .toolbar-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .period-box { display: none; gap: 8px; align-items: end; flex-wrap: wrap; padding: 0 18px 15px; }
+    .period-box.show { display: flex; }
+    .period-box label { min-width: 165px; flex: 1; }
+    .period-help { flex-basis: 100%; color: var(--muted); font-size: 11px; margin-top: -2px; }
+
+    .table-wrap { overflow: auto; max-height: 70vh; border-bottom-left-radius: var(--radius); border-bottom-right-radius: var(--radius); }
+    table { border-collapse: collapse; width: 100%; min-width: 970px; }
+    thead th {
+      position: sticky; top: 0; z-index: 4; background: #f4f8fb; color: #4d6476;
+      font-size: 11px; text-transform: uppercase; letter-spacing: .04em; text-align: left; padding: 12px 12px; border-bottom: 1px solid var(--line);
+    }
+    tbody td { padding: 12px; border-bottom: 1px solid #edf2f6; font-size: 13px; vertical-align: middle; }
+    tbody tr:hover { background: #fafcfe; }
+    .month-row td { padding: 16px 12px 8px; border-bottom: 0; background: #fff; }
+    .month-title { display: flex; justify-content: space-between; align-items: center; gap: 15px; font-size: 14px; font-weight: 800; color: var(--blue-dark); }
+    .month-total { color: var(--muted); font-size: 12px; font-weight: 700; }
+    .muted { color: var(--muted); }
+    .money { font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .procedure { max-width: 230px; }
+    .method {
+      display: inline-flex; padding: 5px 8px; border-radius: 999px; font-weight: 700; font-size: 11px;
+      background: #eef5f8; color: #476476; white-space: nowrap;
+    }
+    .method.credit { background: #f1edff; color: #6551a9; }
+    .method.debit { background: #edf9f4; color: #12705a; }
+    .method.pix { background: #eef8ff; color: #146692; }
+    .method.cash { background: #f6f4ec; color: #746b3c; }
+    .actions { display: flex; gap: 5px; }
+    .empty { padding: 44px 20px; text-align: center; color: var(--muted); }
+    .empty strong { display: block; color: var(--text); margin-bottom: 4px; }
+    .installment-badge { color: var(--blue); font-size: 10px; font-weight: 800; margin-left: 5px; }
+
+    .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(11,34,50,.48); z-index: 100; padding: 18px; }
+    .modal-backdrop.show { display: flex; align-items: center; justify-content: center; }
+    .modal { width: min(650px, 100%); background: #fff; border-radius: 18px; box-shadow: 0 30px 80px rgba(0,0,0,.25); overflow: hidden; }
+    .modal-head { padding: 17px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--line); }
+    .modal-head h3 { margin: 0; }
+    .icon-btn { border: 0; background: transparent; font-size: 21px; color: var(--muted); }
+    .modal-body { padding: 18px 20px; }
+    .report-summary { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 14px; }
+    .report-summary .mini { padding: 12px; background: #f7fafc; border: 1px solid var(--line); border-radius: 12px; }
+    .mini span { display: block; font-size: 10px; color: var(--muted); font-weight: 700; text-transform: uppercase; }
+    .mini strong { display: block; margin-top: 4px; font-size: 15px; }
+    .note { font-size: 12px; color: var(--muted); line-height: 1.45; }
+    footer { text-align: center; padding: 22px 0 8px; color: #8b9ba8; font-size: 11px; }
+
+    @media (max-width: 1050px) {
+      .grid { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 700px) {
+      .app-shell { padding: 10px; }
+      header.hero { position: relative; top: auto; padding: 17px; border-radius: 18px; align-items: flex-start; flex-direction: column; }
+      .hero-actions { width: 100%; justify-content: stretch; }
+      .hero-actions .btn { flex: 1; justify-content: center; }
+      .stats { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .stat { padding: 14px; }
+      .stat-value { font-size: 19px; }
+      .row-2 { grid-template-columns: 1fr; }
+      .search { min-width: 100%; }
+      .table-wrap { max-height: 64vh; }
+      .card-body, .card-head { padding-left: 15px; padding-right: 15px; }
+      .toolbar { padding-left: 15px; padding-right: 15px; }
+      .report-summary { grid-template-columns: 1fr; }
+      .settings-grid { grid-template-columns: 1fr; }
+      .setting-row { align-items: flex-start; flex-direction: column; }
+      .setting-control { width: 100%; flex-basis: auto; }
+    }
+    .settings-page { display: none; }
+    .settings-page.show { display: block; }
+    .main-page.hidden { display: none; }
+    .settings-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .settings-card { padding: 20px; }
+    .settings-card h2 { margin: 0; font-size: 18px; }
+    .settings-card p { margin: 6px 0 18px; color: var(--muted); font-size: 12px; line-height: 1.45; }
+    .settings-list { display: grid; gap: 12px; }
+    .setting-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 13px 14px; background: #f8fbfd; border: 1px solid var(--line); border-radius: 13px; }
+    .setting-row .setting-copy { min-width: 0; }
+    .setting-row strong { display: block; font-size: 13px; }
+    .setting-row span { display: block; margin-top: 3px; color: var(--muted); font-size: 11px; line-height: 1.35; }
+    .setting-control { width: 130px; flex: 0 0 130px; }
+    .input-with-suffix { position: relative; }
+    .input-with-suffix input { padding-right: 36px; }
+    .input-with-suffix span { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 12px; font-weight: 800; }
+    .color-control { display: flex; align-items: center; gap: 8px; width: 180px; flex: 0 0 180px; }
+    .color-control input[type="color"] { width: 46px; height: 42px; padding: 3px; border-radius: 10px; cursor: pointer; }
+    .color-hex { flex: 1; min-width: 0; text-transform: uppercase; }
+    .settings-actions { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
+    .settings-actions .btn { justify-content: center; }
+    .back-home { margin-bottom: 16px; }
+    .backup-area { display: grid; gap: 10px; }
+    .backup-area .btn { width: 100%; justify-content: center; }
+    .settings-note { padding: 11px 12px; border-radius: 11px; background: var(--blue-light); border: 1px solid #cde5f3; color: var(--blue-dark); font-size: 11px; line-height: 1.4; }
+    .credit-options { display: none; gap: 10px; padding: 11px 12px; border-radius: 11px; background: #fbfdff; border: 1px solid #cfdae3; }
+    .credit-options.show { display: grid; }
+    .credit-mode { display: flex; gap: 8px; align-items: center; font-size: 12px; font-weight: 700; color: #355066; }
+    .credit-mode input[type="radio"] { accent-color: var(--blue); }
+    .credit-installment-select { display: none; }
+    .credit-installment-select.show { display: grid; }
+    .danger-settings-card { border-color: #f0d2ce; }
+    .danger-settings-card .btn { margin-top: 2px; }
+    .danger-note { margin-top: 12px; padding: 10px 12px; border-radius: 10px; background: #fff6f4; color: #925249; font-size: 11px; line-height: 1.4; border: 1px solid #f3d9d5; }
+    #print-title { padding: 0; display: none; border-radius: 16px; overflow: hidden; background: linear-gradient(135deg, var(--blue) 0%, #ffffff 100%); }
+    .print-brand { display: flex; align-items: center; gap: 14px; padding: 17px 18px; min-height: 68px; }
+    .print-brand-photo-wrap { width: 54px; height: 54px; flex: 0 0 54px; border-radius: 14px; overflow: hidden; background: #f1f5f8; display: grid; place-items: center; }
+    .print-brand-photo-wrap img { width: 100%; height: 100%; object-fit: cover; display: none; }
+    .print-kicker { font-size: 8px; font-weight: 800; letter-spacing: .12em; color: rgba(255,255,255,.82); }
+    .print-app-title { font-size: 25px; font-weight: 800; letter-spacing: -.03em; margin: 2px 0 3px; color: #fff; }
+    .print-summary { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin: 0; padding: 12px 18px; background: rgba(255,255,255,.92); border-top: 1px solid rgba(255,255,255,.38); }
+    .print-summary span { font-size: 12.5px; font-weight: 900; text-transform: uppercase; letter-spacing: .06em; color: #40596c; }
+    .print-summary strong { font-size: 28px; font-weight: 900; color: var(--blue-dark); }
+    #print-report-groups { display: none; }
+    .print-table-head, .print-data-row {
+      display: grid;
+      grid-template-columns: 1.05fr 1.55fr .92fr 1.02fr 1.05fr 1.55fr;
+      align-items: center;
+      column-gap: 10px;
+    }
+    .print-table-head {
+      margin-bottom: 9px; padding: 8px 7px;
+      background: #f1f5f8; color: #2f4759;
+      border-bottom: 1px solid #dbe5ec;
+      font-size: 9.7px; font-weight: 900; text-transform: uppercase; letter-spacing: .04em;
+    }
+    .print-month-block { margin-bottom: 9px; }
+    .print-month-header {
+      padding: 7px 9px; border-radius: 8px 8px 0 0;
+      font-size: 14px; font-weight: 900; text-transform: uppercase; letter-spacing: .035em;
+      color: #17324a;
+    }
+    .print-data-row {
+      min-height: 32px; padding: 8px 7px;
+      border-bottom: 1px solid #e4ebf0; color: #19374e;
+      font-size: 12.6px; font-weight: 900;
+      break-inside: avoid; page-break-inside: avoid;
+    }
+    .print-data-row:last-child { border-bottom: 0; }
+    .print-data-row > div { min-width: 0; }
+    .print-money { white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .print-procedure { overflow-wrap: anywhere; }
+    .print-installment { color: var(--blue-dark); font-size: 11px; margin-left: 4px; }
+    .print-method {
+      display: inline-flex; width: max-content; padding: 5px 8px; border-radius: 999px;
+      font-size: 10.8px; font-weight: 900;
+      background: #eef5f8; color: #476476;
+    }
+    .print-method.credit { background: #f1edff; color: #6551a9; }
+    .print-method.debit { background: #edf9f4; color: #12705a; }
+    .print-method.pix { background: #eef8ff; color: #146692; }
+    .print-method.cash { background: #f6f4ec; color: #746b3c; }
+    @media print {
+      @page { size: A4 landscape; margin: 12mm; }
+      body { background: #fff; color: #17324a; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      header.hero, .stats, .grid > aside, .toolbar, .period-box, footer, .settings-page, .modal-backdrop { display: none !important; }
+      .grid { display: block; }
+      .card { box-shadow: none; border: 0; }
+      .table-wrap { display: none !important; }
+      #print-title { display: block !important; margin-bottom: 12px; }
+      #print-report-groups { display: block !important; }
+      table { min-width: 0; width: 100%; font-size: 12.2px; border-collapse: separate; border-spacing: 0; }
+      thead th { position: static; font-size: 9.7px; font-weight: 900; padding: 9px 8px; background: #f1f5f8; color: #2f4759; border-bottom: 10px solid #fff; }
+      tbody td { font-size: 12.2px; font-weight: 900; padding: 9px 8px; color: #19374e; }
+      tbody td:nth-child(1), tbody td:nth-child(2), tbody td:nth-child(3), tbody td:nth-child(5), tbody td:nth-child(6), tbody td:nth-child(7) { font-weight: 900; }
+      .month-row { display: table-row !important; }
+      .month-row > td { display: table-cell !important; padding: 10px 11px 9px; color: #17324a !important; border: 0 !important; break-after: avoid; page-break-after: avoid; }
+      .month-title { color: inherit !important; font-size: 14px; font-weight: 900; text-transform: uppercase; letter-spacing: .035em; }
+      .month-total { display: none !important; }
+      .month-row + tr td { padding-top: 11px; }
+      .month-row:not(:first-child) td { border-top: 10px solid #fff !important; }
+      .print-period { color: rgba(255,255,255,.90) !important; font-size: 9px; }
+      .actions, th:last-child, td:last-child { display: none !important; }
+      th:nth-child(5), td:nth-child(5) { display: none !important; }
+      tbody tr { break-inside: avoid; }
+      .procedure { max-width: none; font-weight: 900; }
+      .month-row.month-0 td { background: #d7eaff !important; }
+      .month-row.month-1 td { background: #dff5ea !important; }
+      .month-row.month-2 td { background: #ffead4 !important; }
+      .month-row.month-3 td { background: #e9e0ff !important; }
+      .month-row.month-4 td { background: #d8f1f4 !important; }
+      .month-row.month-5 td { background: #ffe2ea !important; }
+      .month-row.month-6 td { background: #e5f0cf !important; }
+      .month-row.month-7 td { background: #ffefbd !important; }
+      .month-row.month-8 td { background: #dfe7ff !important; }
+      .month-row.month-9 td { background: #eadcf3 !important; }
+      .month-row.month-10 td { background: #d8f0e9 !important; }
+      .month-row.month-11 td { background: #ffe3d0 !important; }
+      .print-month-header.month-0 { background: #d7eaff !important; }
+      .print-month-header.month-1 { background: #dff5ea !important; }
+      .print-month-header.month-2 { background: #ffead4 !important; }
+      .print-month-header.month-3 { background: #e9e0ff !important; }
+      .print-month-header.month-4 { background: #d8f1f4 !important; }
+      .print-month-header.month-5 { background: #ffe2ea !important; }
+      .print-month-header.month-6 { background: #e5f0cf !important; }
+      .print-month-header.month-7 { background: #ffefbd !important; }
+      .print-month-header.month-8 { background: #dfe7ff !important; }
+      .print-month-header.month-9 { background: #eadcf3 !important; }
+      .print-month-header.month-10 { background: #d8f0e9 !important; }
+      .print-month-header.month-11 { background: #ffe3d0 !important; }
+      .print-month-header + .print-data-row { border-top: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="hero">
+      <div class="brand">
+        <div class="brand-photo-wrap">
+          <button class="brand-photo" id="profilePhotoBtn" type="button" aria-label="Alterar foto do perfil">R$</button>
+          <span class="photo-edit-badge">✎</span>
+          <input id="profilePhotoInput" type="file" accept="image/*" style="display:none" />
+        </div>
+        <div class="brand-copy">
+          <div class="brand-title-row">
+            <h1 id="appTitle">Finanças da Clínica</h1>
+            <button class="title-edit" id="editTitleBtn" type="button" aria-label="Editar título">✎</button>
+          </div>
+          <p>Toque no lápis para personalizar o título e na foto para trocar sua imagem</p>
+        </div>
+      </div>
+      <div class="hero-actions">
+        <button class="btn btn-ghost" id="settingsBtn" type="button" aria-label="Abrir configurações">⚙ Configurações</button>
+        <button class="btn btn-primary" id="pdfBtn" type="button">▣ Gerar PDF</button>
+      </div>
+    </header>
+
+    <div class="main-page" id="mainPage">
+    <section class="stats">
+      <div class="stat"><div class="stat-label">Bruto clínica</div><div class="stat-value" id="totalClinic">R$ 0,00</div></div>
+      <div class="stat"><div class="stat-label">Líquido dentista</div><div class="stat-value" id="totalProfessional">R$ 0,00</div></div>
+      <div class="stat"><div class="stat-label">Total de lançamentos</div><div class="stat-value" id="totalRows">0</div></div>
+      <div class="stat"><div class="stat-label">Paciente pesquisado</div><div class="stat-value" id="searchState">Todos</div></div>
+    </section>
+
+    <div class="grid">
+      <aside class="card">
+        <div class="card-head">
+          <h2>Novo lançamento</h2>
+          <p>O sistema calcula automaticamente taxas, repasses e competência de recebimento.</p>
+        </div>
+        <div class="card-body">
+          <form id="entryForm" class="form-grid">
+            <div class="row-2">
+              <label>Data do pagamento
+                <input id="paymentDate" type="date" required />
+              </label>
+              <label>Valor pago
+                <input id="amount" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0,00" required />
+              </label>
+            </div>
+            <label>Nome completo do paciente pagador
+              <input id="patient" type="text" placeholder="Ex.: João da Silva" autocomplete="name" required />
+            </label>
+            <label>Forma de pagamento
+              <select id="paymentMethod" required>
+                <option value="pix">Pix</option>
+                <option value="debit">Débito</option>
+                <option value="cash">Dinheiro</option>
+                <option value="credit">Crédito</option>
+              </select>
+            </label>
+            <div id="installmentField" class="credit-options">
+              <label class="credit-mode"><input type="radio" name="creditMode" value="single" checked> À vista</label>
+              <label class="credit-mode"><input type="radio" name="creditMode" value="installments"> Parcelado</label>
+              <label id="creditInstallmentSelect" class="credit-installment-select">Número de parcelas
+                <select id="installments">
+                  <option value="2">2x</option><option value="3">3x</option><option value="4">4x</option>
+                  <option value="5">5x</option><option value="6">6x</option><option value="7">7x</option>
+                  <option value="8">8x</option><option value="9">9x</option><option value="10">10x</option>
+                  <option value="11">11x</option><option value="12">12x</option>
+                </select>
+              </label>
+            </div>
+            <div id="installmentsNote" class="installments-note">
+              No crédito, o recebimento começa no mês seguinte. O sistema mantém o dia do pagamento e, quando esse dia não existir no mês seguinte, usa o último dia daquele mês.
+            </div>
+            <label>Procedimento realizado
+              <input id="procedure" type="text" placeholder="Ex.: Restauração, coroa, limpeza..." required />
+            </label>
+            <div class="form-actions">
+              <button class="btn btn-secondary" id="clearFormBtn" type="button">Limpar</button>
+              <button class="btn btn-blue" type="submit" id="saveBtn">Adicionar lançamento</button>
+            </div>
+          </form>
+        </div>
+      </aside>
+
+      <main class="card">
+        <div id="print-title">
+          <div class="print-brand">
+            <div class="print-brand-photo-wrap"><img id="print-profile-photo" alt="" /></div>
+            <div>
+              <div class="print-kicker">RELATÓRIO FINANCEIRO</div>
+              <div class="print-app-title" id="print-app-title">Finanças da Clínica</div>
+              <div class="print-period" id="print-period"></div>
+            </div>
+          </div>
+          <div class="print-summary"><span>Valor líquido dentista</span><strong id="print-summary-value">R$ 0,00</strong></div>
+        </div>
+        <div id="print-report-groups" aria-label="Relatório financeiro por mês"></div>
+        <div class="toolbar">
+          <input class="search" id="search" type="search" placeholder="Buscar paciente pelo nome..." />
+          <div class="toolbar-actions">
+            <button class="btn btn-secondary btn-small" id="togglePeriodBtn" type="button">Período</button>
+            <button class="btn btn-secondary btn-small" id="clearSearchBtn" type="button">Limpar busca</button>
+            <button class="btn btn-danger btn-small" id="clearAllBtn" type="button">Apagar todos</button>
+          </div>
+        </div>
+        <div class="period-box" id="periodBox">
+          <label>De
+            <input id="periodStart" type="date" />
+          </label>
+          <label>Até
+            <input id="periodEnd" type="date" />
+          </label>
+          <button class="btn btn-blue" id="applyPeriodBtn" type="button">Aplicar período</button>
+          <button class="btn btn-secondary" id="clearPeriodBtn" type="button">Todos os períodos</button>
+          <div class="period-help">O período usa a <strong>data de recebimento/competência</strong> apresentada na primeira coluna. Para crédito, é a data projetada de recebimento.</div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Data do pagamento</th>
+                <th>Nome do paciente</th>
+                <th>Valor pago</th>
+                <th>Forma de pagamento</th>
+                <th>Bruto clínica</th>
+                <th>Líquido dentista</th>
+                <th>Procedimento realizado</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+          <div id="emptyState" class="empty" style="display:none">
+            <strong>Nenhum lançamento encontrado</strong>
+            Ajuste a busca ou o período, ou cadastre um novo recebimento.
+          </div>
+        </div>
+      </main>
+    </div>
+    </div>
+
+    <section class="settings-page" id="settingsPage">
+      <div class="back-home">
+        <button class="btn btn-secondary" id="backHomeBtn" type="button">← Voltar para lançamentos</button>
+      </div>
+      <div class="settings-grid">
+        <section class="card settings-card">
+          <h2>Taxas e repasses</h2>
+          <p>Altere as regras usadas no cálculo. Os novos valores passam a valer para todos os lançamentos exibidos e também para lançamentos futuros.</p>
+          <div class="settings-list">
+            <div class="setting-row">
+              <div class="setting-copy"><strong>Taxa da maquininha — crédito</strong><span>Percentual descontado do valor pago no crédito.</span></div>
+              <div class="setting-control input-with-suffix"><input id="creditFee" type="number" min="0" max="100" step="0.01" inputmode="decimal"><span>%</span></div>
+            </div>
+            <div class="setting-row">
+              <div class="setting-copy"><strong>Taxa da maquininha — débito</strong><span>Percentual descontado do valor pago no débito.</span></div>
+              <div class="setting-control input-with-suffix"><input id="debitFee" type="number" min="0" max="100" step="0.01" inputmode="decimal"><span>%</span></div>
+            </div>
+            <div class="setting-row">
+              <div class="setting-copy"><strong>Repasse ao profissional</strong><span>Percentual do bruto clínica destinado ao dentista.</span></div>
+              <div class="setting-control input-with-suffix"><input id="professionalShare" type="number" min="0" max="100" step="0.01" inputmode="decimal"><span>%</span></div>
+            </div>
+            <div class="setting-row color-setting-row">
+              <div class="setting-copy"><strong>Cor do topo</strong><span>Escolha a cor principal usada no cabeçalho do aplicativo. Esta escolha fica salva somente neste aparelho.</span></div>
+              <div class="setting-control color-control">
+                <input id="topColor" type="color" aria-label="Escolher cor do topo">
+                <input id="topColorHex" class="color-hex" type="text" maxlength="7" inputmode="text" placeholder="#025896" aria-label="Código hexadecimal da cor">
+              </div>
+            </div>
+          </div>
+          <div class="settings-actions">
+            <button class="btn btn-blue" id="saveSettingsBtn" type="button">Salvar configurações</button>
+            <button class="btn btn-secondary" id="resetSettingsBtn" type="button">Restaurar padrões</button>
+          </div>
+          <div class="settings-note" style="margin-top:12px">Padrões atuais: crédito 3,5% de taxa, débito 2,38% de taxa e repasse profissional de 50%. Pix e Dinheiro não têm desconto.</div>
+        </section>
+
+        <section class="card settings-card">
+          <h2>Backup dos dados</h2>
+          <p>Use o backup para levar seus lançamentos, perfil e configurações para outro aparelho ou guardar uma cópia de segurança.</p>
+          <div class="backup-area">
+            <button class="btn btn-blue" id="backupBtn" type="button">⇩ Fazer backup</button>
+            <button class="btn btn-secondary" id="restoreBtn" type="button">⇧ Restaurar backup</button>
+            <input id="restoreInput" type="file" accept="application/json,.json" style="display:none" />
+          </div>
+          <div class="settings-note" style="margin-top:12px">Cada aparelho mantém seus próprios dados localmente. Restaurar um backup substitui os dados salvos neste aparelho.</div>
+        </section>
+
+        <section class="card settings-card danger-settings-card">
+          <h2>Limpar aplicativo</h2>
+          <p>Apaga lançamentos, título, foto, taxas, cor personalizada e dados locais deste aparelho. O aplicativo volta ao estado inicial.</p>
+          <button class="btn btn-danger" id="resetAppBtn" type="button">↺ Limpar cache e excluir todos os dados</button>
+          <div class="danger-note">Esta ação é permanente neste aparelho. Faça um backup antes de usar, caso queira guardar os lançamentos.</div>
+        </section>
+      </div>
+    </section>
+
+    <footer>Os dados ficam armazenados localmente neste navegador. Backup e configurações ficam disponíveis no menu ⚙.</footer>
+  </div>
+
+  <div class="modal-backdrop" id="editModal">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="editTitle">
+      <div class="modal-head"><h3 id="editTitle">Editar lançamento</h3><button class="icon-btn" id="closeModalBtn" type="button" aria-label="Fechar">×</button></div>
+      <div class="modal-body">
+        <form id="editForm" class="form-grid">
+          <div class="row-2">
+            <label>Data do pagamento<input id="editDate" type="date" required /></label>
+            <label>Valor pago<input id="editAmount" type="number" min="0" step="0.01" required /></label>
+          </div>
+          <label>Nome completo do paciente pagador<input id="editPatient" type="text" required /></label>
+          <label>Forma de pagamento<select id="editMethod" required><option value="pix">Pix</option><option value="debit">Débito</option><option value="cash">Dinheiro</option><option value="credit">Crédito</option></select></label>
+          <div id="editInstallmentField" class="credit-options">
+            <label class="credit-mode"><input type="radio" name="editCreditMode" value="single" checked> À vista</label>
+            <label class="credit-mode"><input type="radio" name="editCreditMode" value="installments"> Parcelado</label>
+            <label id="editCreditInstallmentSelect" class="credit-installment-select">Número de parcelas<select id="editInstallments"><option value="2">2x</option><option value="3">3x</option><option value="4">4x</option><option value="5">5x</option><option value="6">6x</option><option value="7">7x</option><option value="8">8x</option><option value="9">9x</option><option value="10">10x</option><option value="11">11x</option><option value="12">12x</option></select></label>
+          </div>
+          <label>Procedimento realizado<input id="editProcedure" type="text" required /></label>
+          <div class="form-actions"><button class="btn btn-secondary" id="cancelEditBtn" type="button">Cancelar</button><button class="btn btn-blue" type="submit">Salvar alterações</button></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+<script>
+(() => {
+  const STORAGE_KEY = 'financasClinica_v1';
+  const SETTINGS_KEY = 'financasClinica_settings_v1';
+  const defaultSettings = { debitFee: 2.38, creditFee: 3.5, professionalShare: 50, topColor: '#025896' };
+  let settings = loadSettings();
+  function getRate(method) {
+    return method === 'debit' ? 1 - settings.debitFee / 100 : method === 'credit' ? 1 - settings.creditFee / 100 : 1;
+  }
+  const labels = { pix: 'Pix', debit: 'Débito', cash: 'Dinheiro', credit: 'Crédito' };
+  const methodClasses = { pix: 'pix', debit: 'debit', cash: 'cash', credit: 'credit' };
+  const monthNames = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  let entries = loadEntries();
+  let editingId = null;
+  let filters = { search: '', start: '', end: '' };
+
+  const $ = (id) => document.getElementById(id);
+  const currency = (n) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(n) || 0);
+  const dateBR = (iso) => { if (!iso) return ''; const [y,m,d]=iso.split('-'); return `${d}/${m}/${y}`; };
+  const esc = (s) => String(s ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+  const uid = () => `${Date.now()}_${Math.random().toString(36).slice(2,9)}`;
+  const localDateISO = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; };
+
+  function loadEntries() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch { return []; }
+  }
+  function saveAll() { localStorage.setItem(STORAGE_KEY, JSON.stringify(entries)); }
+
+  function loadSettings() {
+    try {
+      const raw = localStorage.getItem(SETTINGS_KEY);
+      const value = raw ? JSON.parse(raw) : {};
+      if (Number.isFinite(value.creditRate) && !Number.isFinite(value.creditFee)) value.creditFee = 100 - value.creditRate;
+      if (Number.isFinite(value.debitRate) && !Number.isFinite(value.debitFee)) value.debitFee = 100 - value.debitRate;
+      return { ...defaultSettings, ...value };
+    } catch { return { ...defaultSettings }; }
+  }
+  function saveSettings() {
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+  }
+  function hexToRgb(hex) {
+    const clean = String(hex || '').trim().replace('#','');
+    if (!/^[0-9a-fA-F]{6}$/.test(clean)) return null;
+    return { r: parseInt(clean.slice(0,2),16), g: parseInt(clean.slice(2,4),16), b: parseInt(clean.slice(4,6),16) };
+  }
+  function rgbToHex(r,g,b) {
+    return '#' + [r,g,b].map(v => Math.max(0, Math.min(255, Math.round(v))).toString(16).padStart(2,'0')).join('').toUpperCase();
+  }
+  function mixWithWhite(hex, amount=0.08) {
+    const rgb = hexToRgb(hex); if (!rgb) return '#0579C4';
+    return rgbToHex(rgb.r + (255-rgb.r)*amount, rgb.g + (255-rgb.g)*amount, rgb.b + (255-rgb.b)*amount);
+  }
+  function darken(hex, amount=0.28) {
+    const rgb = hexToRgb(hex); if (!rgb) return '#013D68';
+    return rgbToHex(rgb.r*(1-amount), rgb.g*(1-amount), rgb.b*(1-amount));
+  }
+  function applyThemeColor() {
+    const color = hexToRgb(settings.topColor) ? settings.topColor.toUpperCase() : defaultSettings.topColor;
+    document.documentElement.style.setProperty('--blue', color);
+    document.documentElement.style.setProperty('--blue-dark', darken(color, 0.30));
+    document.documentElement.style.setProperty('--blue-light', mixWithWhite(color, 0.91));
+    document.documentElement.style.setProperty('--theme-rgb', (() => { const r=hexToRgb(color); return `${r.r},${r.g},${r.b}`; })());
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', color);
+    if ($('topColor')) $('topColor').value = color;
+    if ($('topColorHex')) $('topColorHex').value = color;
+  }
+  function applySettingsToInputs() {
+    $('creditFee').value = settings.creditFee;
+    $('debitFee').value = settings.debitFee;
+    $('professionalShare').value = settings.professionalShare;
+    applyThemeColor();
+  }
+
+  function daysInMonth(year, monthIndex) { return new Date(year, monthIndex + 1, 0).getDate(); }
+  function addMonthsClamped(isoDate, monthsToAdd) {
+    const [y,m,d] = isoDate.split('-').map(Number);
+    const base = new Date(y, (m-1) + monthsToAdd, 1);
+    const last = daysInMonth(base.getFullYear(), base.getMonth());
+    const day = Math.min(d, last);
+    return `${base.getFullYear()}-${String(base.getMonth()+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+  }
+
+  function getBaseRows(entry) {
+    const n = entry.method === 'credit' ? Number(entry.installments || 1) : 1;
+    const grossEach = Number(entry.amount) / n;
+    const rows = [];
+    for (let i=0; i<n; i++) {
+      const receiptDate = entry.method === 'credit' ? addMonthsClamped(entry.paymentDate, i + 1) : entry.paymentDate;
+      const clinic = grossEach * getRate(entry.method);
+      rows.push({
+        id: `${entry.id}_${i+1}`,
+        parentId: entry.id,
+        installmentIndex: i+1,
+        installmentCount: n,
+        paymentDate: receiptDate,
+        originalPaymentDate: entry.paymentDate,
+        patient: entry.patient,
+        amount: grossEach,
+        method: entry.method,
+        clinic,
+        professional: clinic * (settings.professionalShare / 100),
+        procedure: entry.procedure,
+      });
+    }
+    return rows;
+  }
+
+  function allRows() { return entries.flatMap(getBaseRows).sort((a,b) => a.paymentDate.localeCompare(b.paymentDate) || a.patient.localeCompare(b.patient,'pt-BR')); }
+
+  function filteredRows() {
+    let rows = allRows();
+    const q = filters.search.trim().toLocaleLowerCase('pt-BR');
+    if (q) rows = rows.filter(r => r.patient.toLocaleLowerCase('pt-BR').includes(q));
+    if (filters.start) rows = rows.filter(r => r.paymentDate >= filters.start);
+    if (filters.end) rows = rows.filter(r => r.paymentDate <= filters.end);
+    return rows;
+  }
+
+  function updateStats(rows) {
+    const clinic = rows.reduce((s,r)=>s+r.clinic,0);
+    const prof = rows.reduce((s,r)=>s+r.professional,0);
+    $('totalClinic').textContent = currency(clinic);
+    $('totalProfessional').textContent = currency(prof);
+    $('totalRows').textContent = String(rows.length);
+    $('searchState').textContent = filters.search ? `“${filters.search}”` : 'Todos';
+  }
+
+  function monthKey(iso) { return iso.slice(0,7); }
+  function monthLabel(key) { const [y,m] = key.split('-').map(Number); return `${monthNames[m-1]} ${y}`; }
+
+  function updatePrintGroups(rows) {
+    const container = $('print-report-groups');
+    container.innerHTML = '';
+    if (!rows.length) return;
+
+    const head = document.createElement('div');
+    head.className = 'print-table-head';
+    head.innerHTML = `
+      <div>Data do pagamento</div>
+      <div>Nome do paciente</div>
+      <div>Valor pago</div>
+      <div>Forma de pagamento</div>
+      <div>Líquido dentista</div>
+      <div>Procedimento realizado</div>`;
+    container.appendChild(head);
+
+    const groups = new Map();
+    rows.forEach(r => {
+      const key = monthKey(r.paymentDate);
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(r);
+    });
+
+    [...groups.entries()].sort((a,b)=>a[0].localeCompare(b[0])).forEach(([key, monthRows]) => {
+      const monthIndex = Number(key.slice(5,7)) - 1;
+      const block = document.createElement('section');
+      block.className = 'print-month-block';
+      const banner = document.createElement('div');
+      banner.className = `print-month-header month-${monthIndex}`;
+      banner.textContent = monthLabel(key);
+      block.appendChild(banner);
+
+      monthRows.forEach(r => {
+        const installment = r.installmentCount > 1 ? `<span class="print-installment">${r.installmentIndex}/${r.installmentCount}</span>` : '';
+        const row = document.createElement('div');
+        row.className = 'print-data-row';
+        row.innerHTML = `
+          <div>${dateBR(r.paymentDate)}${installment}</div>
+          <div>${esc(r.patient)}</div>
+          <div class="print-money">${currency(r.amount)}</div>
+          <div><span class="print-method ${methodClasses[r.method]}">${labels[r.method]}</span></div>
+          <div class="print-money">${currency(r.professional)}</div>
+          <div class="print-procedure">${esc(r.procedure)}</div>`;
+        block.appendChild(row);
+      });
+      container.appendChild(block);
+    });
+  }
+
+  function render() {
+    const rows = filteredRows();
+    updateStats(rows);
+    updatePrintSummary(rows);
+    updatePrintGroups(rows);
+    const body = $('tableBody'); body.innerHTML = '';
+    $('emptyState').style.display = rows.length ? 'none' : 'block';
+    const groups = new Map();
+    rows.forEach(r => { const key=monthKey(r.paymentDate); if(!groups.has(key)) groups.set(key,[]); groups.get(key).push(r); });
+    [...groups.entries()].sort((a,b)=>a[0].localeCompare(b[0])).forEach(([key,monthRows]) => {
+      const monthClinic = monthRows.reduce((s,r)=>s+r.clinic,0);
+      const monthIndex = Number(key.slice(5,7)) - 1;
+      const trh = document.createElement('tr'); trh.className=`month-row month-${monthIndex}`;
+      trh.innerHTML = `<td colspan="8"><div class="month-title"><span>${monthLabel(key)}</span><span class="month-total">Bruto clínica: ${currency(monthClinic)}</span></div></td>`;
+      body.appendChild(trh);
+      monthRows.forEach(r => {
+        const tr=document.createElement('tr');
+        const installment = r.installmentCount > 1 ? `<span class="installment-badge">${r.installmentIndex}/${r.installmentCount}</span>` : '';
+        tr.innerHTML = `
+          <td>${dateBR(r.paymentDate)}${installment}</td>
+          <td><strong>${esc(r.patient)}</strong></td>
+          <td class="money">${currency(r.amount)}</td>
+          <td><span class="method ${methodClasses[r.method]}">${labels[r.method]}</span></td>
+          <td class="money"><strong>${currency(r.clinic)}</strong></td>
+          <td class="money">${currency(r.professional)}</td>
+          <td class="procedure">${esc(r.procedure)}</td>
+          <td><div class="actions"><button class="btn btn-secondary btn-small" data-edit="${r.parentId}">Editar</button><button class="btn btn-danger btn-small" data-delete="${r.parentId}">Excluir</button></div></td>`;
+        body.appendChild(tr);
+      });
+    });
+    setPrintPeriod();
+  }
+
+  function setPrintPeriod() {
+    let label='Todos os lançamentos';
+    if (filters.start || filters.end) label = `${filters.start ? dateBR(filters.start) : 'Início'} até ${filters.end ? dateBR(filters.end) : 'Fim'}`;
+    $('print-period').textContent = label;
+    $('print-app-title').textContent = profile.title || defaultProfile.title;
+    const photo = $('print-profile-photo');
+    if (profile.photo) { photo.src = profile.photo; photo.style.display = 'block'; }
+    else { photo.removeAttribute('src'); photo.style.display = 'none'; }
+  }
+
+  function updatePrintSummary(rows) {
+    const total = rows.reduce((sum, r) => sum + Number(r.professional || 0), 0);
+    $('print-summary-value').textContent = currency(total);
+  }
+
+  const PROFILE_KEY = 'financasClinica_profile_v1';
+  const defaultProfile = { title: 'Finanças da Clínica', photo: '' };
+
+  function loadProfile() {
+    try {
+      const raw = localStorage.getItem(PROFILE_KEY);
+      if (!raw) return { ...defaultProfile };
+      return { ...defaultProfile, ...JSON.parse(raw) };
+    } catch { return { ...defaultProfile }; }
+  }
+  let profile = loadProfile();
+  function saveProfile() { localStorage.setItem(PROFILE_KEY, JSON.stringify(profile)); }
+
+  function renderProfile() {
+    $('appTitle').textContent = profile.title || defaultProfile.title;
+    const btn = $('profilePhotoBtn');
+    if (profile.photo) {
+      btn.innerHTML = `<img src="${profile.photo}" alt="Foto do perfil" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block" />`;
+      btn.classList.add('has-image');
+    } else {
+      btn.textContent = 'R$';
+      btn.classList.remove('has-image');
+    }
+  }
+
+  function resizeImageForStorage(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onerror = reject;
+      reader.onload = () => {
+        const img = new Image();
+        img.onerror = reject;
+        img.onload = () => {
+          const max = 512;
+          const scale = Math.min(1, max / Math.max(img.width, img.height));
+          const canvas = document.createElement('canvas');
+          canvas.width = Math.max(1, Math.round(img.width * scale));
+          canvas.height = Math.max(1, Math.round(img.height * scale));
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          resolve(canvas.toDataURL('image/jpeg', 0.82));
+        };
+        img.src = reader.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  $('editTitleBtn').addEventListener('click', () => {
+    const value = prompt('Digite o título que deseja mostrar no aplicativo:', profile.title || defaultProfile.title);
+    if (value === null) return;
+    const title = value.trim();
+    if (!title) return alert('O título não pode ficar vazio.');
+    profile.title = title.slice(0, 80);
+    saveProfile();
+    renderProfile();
+  });
+
+  $('profilePhotoBtn').addEventListener('click', () => $('profilePhotoInput').click());
+  $('profilePhotoInput').addEventListener('change', async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) return alert('Escolha uma imagem válida.');
+    try {
+      profile.photo = await resizeImageForStorage(file);
+      saveProfile();
+      renderProfile();
+    } catch {
+      alert('Não foi possível carregar esta foto.');
+    } finally {
+      e.target.value = '';
+    }
+  });
+
+  renderProfile();
+
+  function resetEntryForm() {
+    $('entryForm').reset();
+    $('paymentMethod').value='pix';
+    $('paymentDate').value = localDateISO();
+    setCreditMode('', 'single');
+  }
+
+  function toggleCredit(prefix='') {
+    const methodId = prefix === 'edit' ? 'editMethod' : 'paymentMethod';
+    const fieldId = prefix === 'edit' ? 'editInstallmentField' : 'installmentField';
+    const selectWrapId = prefix === 'edit' ? 'editCreditInstallmentSelect' : 'creditInstallmentSelect';
+    const note = prefix === 'edit' ? null : $('installmentsNote');
+    const method = $(methodId);
+    const field = $(fieldId);
+    const selectWrap = $(selectWrapId);
+    if (!method || !field || !selectWrap) return;
+    const isCredit = method.value === 'credit';
+    field.classList.toggle('show', isCredit);
+    if (note) note.classList.toggle('show', isCredit);
+    if (!isCredit) {
+      selectWrap.classList.remove('show');
+      return;
+    }
+    const modeName = prefix === 'edit' ? 'editCreditMode' : 'creditMode';
+    const selected = document.querySelector(`input[name="${modeName}"]:checked`);
+    selectWrap.classList.toggle('show', selected?.value === 'installments');
+  }
+
+  function setCreditMode(prefix, mode) {
+    const name = prefix ? 'editCreditMode' : 'creditMode';
+    const radio = document.querySelector(`input[name="${name}"][value="${mode}"]`);
+    if (radio) radio.checked = true;
+    toggleCredit(prefix);
+  }
+
+  function addEntry(formPrefix='') {
+    const ids = formPrefix
+      ? { date: 'editDate', patient: 'editPatient', amount: 'editAmount', method: 'editMethod', installments: 'editInstallments', procedure: 'editProcedure' }
+      : { date: 'paymentDate', patient: 'patient', amount: 'amount', method: 'paymentMethod', installments: 'installments', procedure: 'procedure' };
+    const date = $(ids.date).value;
+    const patient = $(ids.patient).value.trim();
+    const amount = Number($(ids.amount).value);
+    const method = $(ids.method).value;
+    const procedure = $(ids.procedure).value.trim();
+    const creditMode = formPrefix ? document.querySelector('input[name=editCreditMode]:checked')?.value : document.querySelector('input[name=creditMode]:checked')?.value;
+    const installments = method === 'credit' ? (creditMode === 'installments' ? Number($(ids.installments).value || 2) : 1) : 1;
+    if (!date || !patient || !(amount > 0) || !procedure) return null;
+    return { id: uid(), paymentDate: date, patient, amount, method, installments, procedure, createdAt: new Date().toISOString() };
+  }
+
+  $('entryForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const entry = addEntry('');
+    if (!entry) return alert('Preencha todos os campos corretamente.');
+    entries.push(entry); saveAll(); render(); resetEntryForm();
+  });
+
+  $('paymentMethod').addEventListener('change', () => toggleCredit(''));
+  $('editMethod').addEventListener('change', () => toggleCredit('edit'));
+  document.querySelectorAll('input[name=creditMode]').forEach(r => r.addEventListener('change', () => toggleCredit('')));
+  document.querySelectorAll('input[name=editCreditMode]').forEach(r => r.addEventListener('change', () => toggleCredit('edit')));
+  $('clearFormBtn').addEventListener('click', resetEntryForm);
+
+  $('search').addEventListener('input', e => { filters.search=e.target.value; render(); });
+  $('clearSearchBtn').addEventListener('click', () => { filters.search=''; $('search').value=''; render(); });
+  $('togglePeriodBtn').addEventListener('click', () => $('periodBox').classList.toggle('show'));
+  $('applyPeriodBtn').addEventListener('click', () => {
+    filters.start=$('periodStart').value; filters.end=$('periodEnd').value;
+    if(filters.start && filters.end && filters.start>filters.end) return alert('A data inicial não pode ser maior que a data final.');
+    render();
+  });
+  $('clearPeriodBtn').addEventListener('click', () => { filters.start=''; filters.end=''; $('periodStart').value=''; $('periodEnd').value=''; render(); });
+
+  $('tableBody').addEventListener('click', e => {
+    const edit = e.target.closest('[data-edit]');
+    const del = e.target.closest('[data-delete]');
+    if (edit) openEdit(edit.dataset.edit);
+    if (del) deleteEntry(del.dataset.delete);
+  });
+
+  function deleteEntry(id) {
+    const entry = entries.find(e=>e.id===id); if(!entry) return;
+    const ok = confirm(`Excluir o lançamento de ${entry.patient}?${entry.installments>1 ? `\nIsso excluirá também as ${entry.installments} parcelas.`:''}`);
+    if(!ok) return;
+    entries = entries.filter(e=>e.id!==id); saveAll(); render();
+  }
+
+  function openEdit(id) {
+    const e=entries.find(x=>x.id===id); if(!e) return;
+    editingId=id;
+    $('editDate').value=e.paymentDate; $('editPatient').value=e.patient; $('editAmount').value=e.amount.toFixed(2); $('editMethod').value=e.method; $('editInstallments').value=String(e.installments||2); $('editProcedure').value=e.procedure;
+    setCreditMode('edit', Number(e.installments || 1) > 1 ? 'installments' : 'single');
+    toggleCredit('edit'); $('editModal').classList.add('show');
+  }
+  function closeEdit(){ editingId=null; $('editModal').classList.remove('show'); }
+  $('closeModalBtn').addEventListener('click', closeEdit); $('cancelEditBtn').addEventListener('click', closeEdit);
+  $('editModal').addEventListener('click', e=>{ if(e.target===$('editModal')) closeEdit(); });
+  $('editForm').addEventListener('submit', e=>{
+    e.preventDefault();
+    const idx=entries.findIndex(x=>x.id===editingId); if(idx<0) return;
+    const updated=addEntry('edit'); if(!updated) return alert('Preencha todos os campos corretamente.');
+    updated.id=entries[idx].id; updated.createdAt=entries[idx].createdAt; entries[idx]=updated; saveAll(); closeEdit(); render();
+  });
+
+  $('clearAllBtn').addEventListener('click', () => {
+    if(!entries.length) return alert('Não há lançamentos para excluir.');
+    if(confirm('Apagar todos os lançamentos deste aparelho? Esta ação não pode ser desfeita.')) { entries=[]; saveAll(); render(); }
+  });
+
+  $('backupBtn').addEventListener('click', () => {
+    const payload = { app:'Finanças da Clínica', version:8, exportedAt:new Date().toISOString(), profile, settings, entries };
+    const blob = new Blob([JSON.stringify(payload,null,2)], {type:'application/json'});
+    const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=`backup-financas-clinica-${new Date().toISOString().slice(0,10)}.json`; a.click(); URL.revokeObjectURL(url);
+  });
+
+  $('restoreBtn').addEventListener('click', () => $('restoreInput').click());
+  $('restoreInput').addEventListener('change', async e => {
+    const file = e.target.files?.[0]; if (!file) return;
+    try {
+      const payload = JSON.parse(await file.text());
+      if (!payload || payload.app !== 'Finanças da Clínica' || !Array.isArray(payload.entries)) throw new Error('Arquivo de backup inválido.');
+      if (!confirm(`Restaurar ${payload.entries.length} lançamento(s)? Os dados atuais neste aparelho serão substituídos.`)) return;
+      entries = payload.entries; profile = { ...defaultProfile, ...(payload.profile || {}) }; settings = { ...defaultSettings, ...(payload.settings || {}) }; saveAll(); saveProfile(); saveSettings(); applySettingsToInputs(); renderProfile(); render(); alert('Backup restaurado com sucesso.');
+    } catch (err) { alert('Não foi possível restaurar este backup.'); }
+    e.target.value='';
+  });
+
+  async function resetEntireApp() {
+    const ok = confirm('ATENÇÃO\n\nIsso apagará todos os lançamentos, foto, título, taxas e preferências deste aparelho e limpará o cache do aplicativo.\n\nDeseja realmente voltar o aplicativo ao estado inicial?');
+    if (!ok) return;
+    try {
+      localStorage.clear();
+      sessionStorage.clear();
+      if ('caches' in window) {
+        const cacheNames = await caches.keys();
+        await Promise.all(cacheNames.map(name => caches.delete(name)));
+      }
+      if ('serviceWorker' in navigator) {
+        const registrations = await navigator.serviceWorker.getRegistrations();
+        await Promise.all(registrations.map(reg => reg.unregister()));
+      }
+    } catch (err) {
+      console.warn('Não foi possível limpar completamente o cache.', err);
+    }
+    location.reload();
+  }
+
+  function showSettings() {
+    $('mainPage').classList.add('hidden');
+    $('settingsPage').classList.add('show');
+    applySettingsToInputs();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  function hideSettings() {
+    $('settingsPage').classList.remove('show');
+    $('mainPage').classList.remove('hidden');
+    render();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  $('settingsBtn').addEventListener('click', showSettings);
+  $('resetAppBtn').addEventListener('click', resetEntireApp);
+  $('backHomeBtn').addEventListener('click', hideSettings);
+  $('saveSettingsBtn').addEventListener('click', () => {
+    const debitFee = Number($('debitFee').value);
+    const creditFee = Number($('creditFee').value);
+    const professionalShare = Number($('professionalShare').value);
+    const topColor = $('topColorHex').value.trim().toUpperCase();
+    if (![debitFee, creditFee, professionalShare].every(Number.isFinite)) return alert('Preencha todas as taxas com números válidos.');
+    if (debitFee < 0 || debitFee > 100 || creditFee < 0 || creditFee > 100 || professionalShare < 0 || professionalShare > 100) return alert('As taxas devem estar entre 0% e 100%.');
+    if (!hexToRgb(topColor)) return alert('Informe uma cor hexadecimal válida, por exemplo #025896.');
+    settings = { debitFee, creditFee, professionalShare, topColor };
+    saveSettings();
+    applySettingsToInputs();
+    render();
+    alert('Configurações salvas com sucesso.');
+  });
+
+  $('topColor').addEventListener('input', () => {
+    const value = $('topColor').value.toUpperCase();
+    $('topColorHex').value = value;
+  });
+  $('topColorHex').addEventListener('input', () => {
+    const value = $('topColorHex').value.trim();
+    if (hexToRgb(value)) {
+      $('topColor').value = value.toUpperCase();
+    }
+  });
+  $('resetSettingsBtn').addEventListener('click', () => {
+    if (!confirm('Restaurar as taxas padrão?')) return;
+    settings = { ...defaultSettings };
+    saveSettings();
+    applySettingsToInputs();
+    render();
+  });
+  applySettingsToInputs();
+
+  $('pdfBtn').addEventListener('click', () => {
+    const rows=filteredRows();
+    if(!rows.length) return alert('Não há lançamentos no período/consulta atual para gerar o PDF.');
+    setPrintPeriod();
+    window.print();
+  });
+
+  window.addEventListener('beforeprint', () => render());
+
+  resetEntryForm(); render();
+  if ('serviceWorker' in navigator && location.protocol !== 'file:') navigator.serviceWorker.register('sw.js').catch(()=>{});
+})();
+</script>
+</body>
+</html>
